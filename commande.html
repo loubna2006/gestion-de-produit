@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Commandes - Loubna</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        table {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .commande {
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            margin: 15px auto;
+            padding: 15px;
+            max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête -->
+     <section id="header">
+        <h1 class="logo">Loubna</h1>
+        <ul id="navbar">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="boutique.html">Boutique</a></li>
+            <li><a href="panier.html">Panier</a></li>
+             <li><a href="blog.html">blog</a></li>
+             <li><a href="contact.html">contact</a></li>
+            
+        </ul>
+    </section>
+
+    <!-- Section Commandes -->
+    <section id="commandes">
+        <h2>Mes Commandes</h2>
+        <div id="liste-commandes"></div>
+    </section>
+
+    <footer>
+        <p style="text-align:center;">&copy; 2025 Loubna Boutique - Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        const listeCommandes = document.getElementById('liste-commandes');
+        const commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+
+        if (commandes.length === 0) {
+            listeCommandes.innerHTML = "<p style='text-align:center;'>Aucune commande passée pour le moment.</p>";
+        } else {
+            commandes.forEach((commande, index) => {
+                const div = document.createElement('div');
+                div.className = "commande";
+
+                let html = `<h3>Commande #${index + 1} - ${commande.date}</h3>`;
+                html += `<table>
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
+                            <th>Sous-total</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+                commande.produits.forEach(p => {
+                    html += `<tr>
+                        <td>${p.nom}</td>
+                        <td>${p.prix} DH</td>
+                        <td>${p.quantite}</td>
+                        <td>${p.prix * p.quantite} DH</td>
+                        
+                    </tr>`;
+                });
+
+                html += `</tbody></table>`;
+                html += `<p style="text-align:right;font-weight:bold;">Total: ${commande.total} DH</p>`;
+
+                div.innerHTML = html;
+                listeCommandes.appendChild(div);
+            });
+            
+        }
+    </script>
+
+</body>
+</html>

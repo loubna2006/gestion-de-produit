@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique - Loubna</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+
+    <!-- Barre de navigation commune à toutes les pages -->
+    <section id="header">
+        <h1 class="logo">Loubna</h1>
+        <ul id="navbar">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="boutique.html">Boutique</a></li>
+            <li><a href="panier.html">Panier</a></li>
+             <li><a href="blog.html">blog</a></li>
+             <li><a href="contact.html">contact</a></li>
+            
+        </ul>
+    </section>
+    <!-- Contenu spécifique de la page -->
+    <section>
+        <h3>Bienvenue sur la boutique Loubna !</h3>
+        
+    </section>
+
+    <!-- Section boutique -->
+    <section id="boutique">
+        <h1 style="font-size: 90%;">Nos Produits</h1>
+        <p style="font-size: 100%;">Découvrez nos dernières collections tendance</p>
+
+        <div class="produit-container">
+
+            <div class="produit">
+                <img src="Capture1.PNG" alt="ordinateur portable ">
+                <h3>ordinateur</h3>
+                <p class="prix">1000 DH</p>
+                 <ul class="info">
+        <li>Couleur : blanche</li>
+        <li>Pointures : 36 à 41</li>
+        <li>Marque : Loubna Style</li>
+    </ul> <button class="ajouter-panier" data-nom="ordinateur portable" data-prix="1000">Ajouter au panier</button>
+                
+            </div>
+
+            <div class="produit">
+                <img src="Capture2.PNG" alt="ordinateur">
+                <h3>ordinateur</h3>
+                <p class="prix">20000 DH</p>
+                <button class="ajouter-panier" data-nom="ordinateur" data-prix="2000">Ajouter au panier</button>
+            </div>
+
+            <div class="produit">
+                <img src="Capture3.PNG" alt="ordinateur">
+                <h3>ordinateur</h3>
+                <p class="prix">180 DH</p>
+               <button class="ajouter-panier" data-nom="ordinateur" data-prix="180">Ajouter au panier</button>
+            </div>
+
+            <div class="produit">
+                <img src="Captur4.PNG" alt="portable">
+                <h3>portable</h3>
+                <p class="prix">220 DH</p>
+                 <button class="ajouter-panier" data-nom="portable" data-prix="220">Ajouter au panier</button>
+                
+            </div>
+             
+
+        </div>
+    </section>
+
+    <!-- Pied de page -->
+    <footer>
+        <p>&copy; 2025 Loubna Boutique - Tous droits réservés.</p>
+    </footer>
+     <footer>
+        <p>&copy; 2025 Loubna Boutique - Tous droits réservés.</p>
+    </footer>
+
+    <!-- Script pour gérer le panier -->
+    <script>
+        // Récupérer le panier depuis LocalStorage ou créer un panier vide
+        let panier = JSON.parse(localStorage.getItem('panier')) || [];
+
+        // Sélectionner tous les boutons
+        const boutons = document.querySelectorAll('.ajouter-panier');
+
+        boutons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const nom = btn.getAttribute('data-nom');
+                const prix = parseInt(btn.getAttribute('data-prix'));
+
+                // Vérifier si le produit existe déjà
+                const produitExistant = panier.find(p => p.nom === nom);
+                if(produitExistant) {
+                    produitExistant.quantite += 1;
+                } else {
+                    panier.push({nom: nom, prix: prix, quantite: 1});
+                }
+
+                // Sauvegarder le panier dans LocalStorage
+                localStorage.setItem('panier', JSON.stringify(panier));
+
+                alert(`${nom} a été ajouté au panier !`);
+            });
+        });
+    </script>
+
+</body>
+</html>

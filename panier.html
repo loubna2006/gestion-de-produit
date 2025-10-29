@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panier - SmartZone</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Styles généraux */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Navigation */
+#header {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #2c5530;
+    margin: 0;
+    padding: 10px 0;
+}
+
+#navbar {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 30px;
+}
+
+#navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+#navbar a:hover {
+    color: #2c5530;
+}
+
+/* Tableau panier */
+table {
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+th, td {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #eaeaea;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 500;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+td {
+    color: #333;
+}
+
+#total-panier {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #2c5530;
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #2c5530;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+button:hover {
+    background-color: #1e3a23;
+    transform: translateY(-2px);
+}
+
+.supprimer-btn {
+    background-color: #dc3545;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+}
+
+.supprimer-btn:hover {
+    background-color: #c82333;
+}
+
+/* Styles pour les boutons de quantité */
+.quantite-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.quantite-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #2c5530;
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.quantite-btn:hover {
+    background-color: #1e3a23;
+    transform: scale(1.1);
+}
+
+.quantite-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.quantite-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+    color: #2c5530;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: 300;
+    font-size: 2.2rem;
+    color: #2c2c2c;
+    letter-spacing: 1px;
+}
+
+#panier {
+    padding: 40px 20px;
+    min-height: 70vh;
+}
+
+footer {
+    background: #2c2c2c;
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 60px;
+}
+
+.panier-vide {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+#passer-commande {
+    background-color: #28a745;
+}
+
+#passer-commande:hover {
+    background-color: #218838;
+}
+
+#voir-commandes {
+    background-color: #17a2b8;
+}
+
+#voir-commandes:hover {
+    background-color: #138496;
+}
+
+#vider-panier {
+    background-color: #dc3545;
+}
+
+#vider-panier:hover {
+    background-color: #c82333;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.popup-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    animation: zoomIn 0.4s ease;
+    max-width: 400px;
+}
+
+.popup-content h3 {
+    color: #28a745;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.popup-content p {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.popup-content button {
+    background-color: #2c5530;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.popup-content button:hover {
+    background-color: #1e3a23;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.commande {
+    border: 1px solid #eaeaea;
+    background-color: white;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.commande h4 {
+    color: #2c5530;
+    margin-bottom: 15px;
+}
+
+.commande table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.commande table th, .commande table td {
+    padding: 10px;
+    border: 1px solid #eaeaea;
+    text-align: center;
+}
+
+.commande button.supprimer-commande {
+    margin-top: 10px;
+    background-color: #dc3545;
+}
+
+.commande button.supprimer-commande:hover {
+    background-color: #c82333;
+}
+</style>
+</head>
+<body>
+<!-- Barre de navigation -->
+<section id="header">
+    <h1 class="logo">SmartZone</h1>
+    <ul id="navbar">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="connexion-option"><a href="connexion.html">Connexion</a></li>
+        <li><a href="voir_commande.html">Les commandes</a></li>
+        <li id="deconnexion-option" style="display:none;"><a href="#" onclick="logout()">Déconnexion</a></li>
+    </ul>
+</section>
+
+<!-- Section Panier -->
+<section id="panier">
+    <h2>Mon Panier</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Sous-total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="panier-table"></tbody>
+    </table>
+    <p style="text-align:center; font-size: 1.2rem; margin: 30px 0;">
+        Total : <span id="total-panier">0 DH</span>
+    </p>
+    <div class="action-buttons">
+        <button id="passer-commande">Passer ma commande</button>
+        <button id="voir-commandes">Voir mes commandes</button>
+        <button id="vider-panier">Vider le panier</button>
+    </div>
+    <div id="liste-commandes"></div>
+</section>
+
+<div id="popup-commande" class="popup">
+    <div class="popup-content">
+        <h3>🎉 Commande confirmée !</h3>
+        <p>Merci pour votre achat chez <strong>SmartZone</strong> 💚</p>
+        <p>Votre commande est en cours de traitement.</p>
+        <button id="fermer-popup">Fermer</button>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 SmartZone - Tous droits réservés.</p>
+</footer>
+
+<script>
+// ✅ Gestion de la connexion admin
+const isAdmin = localStorage.getItem('isAdmin') === 'true';
+const connexionOption = document.getElementById('connexion-option');
+const deconnexionOption = document.getElementById('deconnexion-option');
+
+if (isAdmin) {
+    connexionOption.style.display = 'none';
+    deconnexionOption.style.display = 'inline-block';
+} else {
+    connexionOption.style.display = 'inline-block';
+    deconnexionOption.style.display = 'none';
+}
+
+function logout() {
+    localStorage.removeItem('isAdmin');
+    window.location.href = "index.html";
+}
+
+// ✅ Gestion du panier
+let panier = JSON.parse(localStorage.getItem('panier')) || [];
+const panierTable = document.getElementById('panier-table');
+const totalPanier = document.getElementById('total-panier');
+
+function afficherPanier() {
+    panierTable.innerHTML = '';
+    let total = 0;
+
+    if (panier.length === 0) {
+        panierTable.innerHTML = `
+            <tr>
+                <td colspan="5" class="panier-vide">
+                    Votre panier est vide<br>
+                    <small>Découvrez nos produits dans la <a href="boutique.html" style="color: #2c5530;">boutique</a></small>
+                </td>
+            </tr>
+        `;
+        totalPanier.textContent = '0 DH';
+        return;
+    }
+
+    panier.forEach((p, i) => {
+        const sousTotal = p.prix * p.quantite;
+        total += sousTotal;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${p.nom}</td>
+            <td>${p.prix} DH</td>
+            <td>
+                <div class="quantite-controls">
+                    <button class="quantite-btn moins" data-index="${i}">-</button>
+                    <span class="quantite-value">${p.quantite}</span>
+                    <button class="quantite-btn plus" data-index="${i}">+</button>
+                </div>
+            </td>
+            <td>${sousTotal} DH</td>
+            <td><button class="supprimer-btn" data-index="${i}">Supprimer</button></td>
+        `;
+        panierTable.appendChild(tr);
+    });
+
+    totalPanier.textContent = total + ' DH';
+}
+
+// Fonction pour mettre à jour la quantité
+function mettreAJourQuantite(index, changement) {
+    const nouvelleQuantite = panier[index].quantite + changement;
+    
+    // La quantité ne peut pas être inférieure à 1
+    if (nouvelleQuantite < 1) {
+        return;
+    }
+    
+    panier[index].quantite = nouvelleQuantite;
+    localStorage.setItem('panier', JSON.stringify(panier));
+    afficherPanier();
+}
+
+// Gestion des événements
+document.addEventListener('click', e => {
+    // Supprimer un produit
+    if (e.target.classList.contains('supprimer-btn')) {
+        const index = e.target.dataset.index;
+        panier.splice(index, 1);
+        localStorage.setItem('panier', JSON.stringify(panier));
+        afficherPanier();
+    }
+    
+    // Diminuer la quantité
+    if (e.target.classList.contains('moins')) {
+        const index = e.target.dataset.index;
+        mettreAJourQuantite(index, -1);
+    }
+    
+    // Augmenter la quantité
+    if (e.target.classList.contains('plus')) {
+        const index = e.target.dataset.index;
+        mettreAJourQuantite(index, 1);
+    }
+});
+
+// Passer commande
+document.getElementById('passer-commande').addEventListener('click', () => {
+    if (panier.length === 0) return alert("Votre panier est vide !");
+    
+    let commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+    const commande = {
+        id: Date.now(),
+        date: new Date().toLocaleString('fr-FR'),
+        produits: [...panier],
+        total: panier.reduce((a, p) => a + p.prix * p.quantite, 0),
+        statut: 'En attente'
+    };
+    
+    commandes.push(commande);
+    localStorage.setItem('commandes', JSON.stringify(commandes));
+    
+    document.getElementById('popup-commande').style.display = 'flex';
+    panier = [];
+    localStorage.removeItem('panier');
+    afficherPanier();
+});
+
+document.getElementById('fermer-popup').addEventListener('click', () => {
+    document.getElementById('popup-commande').style.display = 'none';
+});
+
+document.getElementById('vider-panier').addEventListener('click', () => {
+    if (confirm("Voulez-vous vraiment vider votre panier ?")) {
+        panier = [];
+        localStorage.removeItem('panier');
+        afficherPanier();
+    }
+});
+
+document.getElementById('voir-commandes').addEventListener('click', () => {
+    window.location.href = "voir_commande.html";
+});
+
+// Initialiser l'affichage du panier
+afficherPanier();
+</script>
+</body>
+</html>

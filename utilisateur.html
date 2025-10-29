@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Utilisateur</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #636e72;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #0984e3;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #74b9ff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Connexion Utilisateur</h2>
+        <form id="loginForm">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" placeholder="Entrez votre nom" required>
+
+            <label for="email">Email :</label>
+            <input type="email" id="email" placeholder="Entrez votre email" required>
+
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+
+            <button type="submit">Entrer</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event){
+            event.preventDefault();
+
+            // récupérer les valeurs
+            const nom = document.getElementById("nom").value;
+            const email = document.getElementById("email").value;
+
+            // enregistrer temporairement dans localStorage
+            localStorage.setItem("nomUtilisateur", nom);
+            localStorage.setItem("emailUtilisateur", email);
+
+            // rediriger vers la boutique
+            window.location.href = "index.html";
+        });
+    </script>
+
+</body>
+</html>

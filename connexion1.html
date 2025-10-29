@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - Loubna</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #74baff1a, #81ecec11);
+      margin: 0;
+    }
+    /* Navbar */
+    #header {
+         display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color:#086f1418;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 10px 20px;
+    }
+    #header .logo {
+      color: #086f1496;
+      display: inline-block;
+      font-size: 24px;
+      font-weight: bold;
+      margin-right: 20px;
+    }
+    #navbar {
+      list-style: none;
+    display: flex;
+    gap: 25px;
+    }
+    #navbar li {
+      display: inline-block;
+      margin-right: 15px;
+    }
+    #navbar li a {
+      text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: 0.3s;
+      
+    }
+    #navbar li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Container connexion */
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 350px;
+      margin: 50px auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2d3436;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #636e72;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #dfe6e9;
+      border-radius: 8px;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #74b9ff;
+    }
+    p {
+      text-align: center;
+      margin-top: 10px;
+    }
+    a {
+      color: #0984e3;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <!--<section id="header">
+    <h1 class="logo">SmartZone</h1>
+    <ul id="navbar">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="boutique.html">Boutique</a></li>
+      <li><a href="panier.html">Panier</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li id="loginLink"><a href="connexion.html">Connexion</a></li>
+        <li><a href="message_admin.html">les message</a></li>
+     
+     <li id="adminLink" style="display:none;"><a href="ajouter-produit.html">Ajouter Produit</a></li>
+      <li id="logoutLink" style="display:none;"><a href="#" onclick="logout()">Déconnexion</a></li>
+    </ul>
+  </section>-->
+
+  <!-- Formulaire de connexion -->
+  <div class="container">
+    <h2>Connexion</h2>
+    <form id="loginForm">
+      <label>Email :</label>
+      <input type="email" id="email" placeholder="Entrez votre email" required />
+
+      <label>Mot de passe :</label>
+      <input type="password" id="password" placeholder="Mot de passe" required />
+
+      <button type="submit">Se connecter</button>
+    </form>
+    <p>Pas encore de compte ? <a href="inscr.html">Créer un compte</a></p>
+  </div>
+
+  <script>
+    // Gestion navbar
+    const loginLink = document.getElementById('loginLink');
+    const adminLink = document.getElementById('adminLink');
+    const logoutLink = document.getElementById('logoutLink');
+
+    const adminConnecte = localStorage.getItem('adminConnecte') === 'true';
+    const utilisateurConnecte = localStorage.getItem('loggedUser');
+
+    if(adminConnecte){
+        adminLink.style.display = 'block';
+        logoutLink.style.display = 'block';
+        loginLink.style.display = 'none';
+    } else if(utilisateurConnecte){
+        loginLink.style.display = 'none';
+        logoutLink.style.display = 'block';
+    }
+
+    function logout(){
+        localStorage.removeItem('adminConnecte');
+        localStorage.removeItem('loggedUser');
+        window.location.reload();
+    }
+
+    // Gestion connexion
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Vérification Admin
+      const adminEmail = "loubnadouma51@gmail.com";
+      const adminPass = "loubna2006";
+
+      if(email === adminEmail && password === adminPass){
+          localStorage.setItem('adminConnecte', 'true');
+          alert(" Connexion Admin réussie !");
+          window.location.href = "index1.html";
+          return;
+      }
+
+      // Vérification utilisateur normal
+      const userData = JSON.parse(localStorage.getItem("userData"));
+
+      if (userData && email === userData.email && password === userData.password) {
+        alert("✅ Connexion réussie !");
+        localStorage.setItem("loggedUser", userData.nom);
+        window.location.href = "boutique.html";
+      } else {
+        alert(" Email ou mot de passe incorrect !");
+      }
+    });
+  </script>
+
+</body>
+</html>

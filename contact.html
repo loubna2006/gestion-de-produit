@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - Loubna</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f5f6fa; }
+#header { background-color: #086f1418; color:white; padding:15px; text-align:center; }
+#header ul { list-style:none; margin:0; padding:0; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
+#header ul li a { text-decoration: none; color: #333;font-weight: 500; transition: 0.3s;}
+#header ul li a:hover { color: #086f14; }
+
+section { max-width:600px; margin:30px auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+h2 { text-align:center; color:#11468a; margin-bottom:20px; }
+
+label { display:block; margin-top:10px; font-weight:bold; }
+input, textarea { width:100%; padding:8px; margin-top:5px; border-radius:5px; border:1px solid #ccc; }
+button { cursor:pointer; background:#086f1496; color:white; border:none; border-radius:5px; padding:10px 15px; font-weight:bold; margin-top:15px; display:block; width:100%; }
+button:hover { background:#0c3565; }
+
+footer { text-align:center; padding:10px; background:#086f141a; color:white; margin-top:20px; }
+#messages-list { margin-top:20px; }
+.message { border-bottom:1px solid #ccc; padding:8px 0; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<section id="header">
+  <h1 class="logo">SmartZone</h1>
+  <ul id="navbar">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="boutique.html">Boutique</a></li>
+    <li><a href="panier.html">Panier</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li id="loginLink"><a href="connexion.html">Connexion</a></li>
+    <li id="adminLink" style="display:none;"><a href="ajouter-produit.html">Ajouter Produit</a></li>
+    <li id="logoutLink" style="display:none;"><a href="#" onclick="logout()">Déconnexion</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Contactez-nous</h2>
+  <form id="contact-form">
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" name="nom" required>
+
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="message">Message :</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Envoyer</button>
+  </form>
+</section>
+
+<footer>
+  <p>&copy; 2025 Loubna Boutique - Tous droits réservés.</p>
+</footer>
+
+<script>
+// Gestion Navbar
+const loginLink = document.getElementById('loginLink');
+const adminLink = document.getElementById('adminLink');
+const logoutLink = document.getElementById('logoutLink');
+const adminConnecte = localStorage.getItem('adminConnecte') === 'true';
+const utilisateurConnecte = localStorage.getItem('loggedUser');
+
+if(adminConnecte){
+    adminLink.style.display = 'block';
+    logoutLink.style.display = 'block';
+    loginLink.style.display = 'none';
+} else if(utilisateurConnecte){
+    loginLink.style.display = 'none';
+    logoutLink.style.display = 'block';
+}
+
+function logout(){
+    localStorage.removeItem('adminConnecte');
+    localStorage.removeItem('loggedUser');
+    window.location.reload();
+}
+
+// Gestion du formulaire contact
+const form = document.getElementById('contact-form');
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const nom = document.getElementById('nom').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    let messages = JSON.parse(localStorage.getItem('messages')) || [];
+    messages.push({nom, email, message});
+    localStorage.setItem('messages', JSON.stringify(messages));
+
+    alert('Votre message a été envoyé au propriétaire !');
+    form.reset();
+});
+</script><script>
+// Vérifie si un admin ou un utilisateur est connecté
+const isAdmin = localStorage.getItem('adminConnecte') === 'true';
+const loggedUser = localStorage.getItem('loggedUser');
+
+// Sélectionne les éléments du menu
+const loginLink = document.getElementById('loginLink');
+const logoutLink = document.getElementById('logoutLink');
+
+// Si quelqu’un est connecté → cacher "Connexion" et montrer "Déconnexion"
+if (isAdmin || loggedUser) {
+    if (loginLink) loginLink.style.display = 'none';
+    if (logoutLink) logoutLink.style.display = 'block';
+}
+
+// Fonction de déconnexion
+function logout() {
+    localStorage.removeItem('adminConnecte');
+    localStorage.removeItem('loggedUser');
+    window.location.href = 'index.html'; // redirige vers accueil
+}
+</script>
+
+
+</body>
+</html>

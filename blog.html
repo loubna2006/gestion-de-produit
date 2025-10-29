@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Loubna</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        background: #f8f9fa;
+        color: #333;
+    }
+
+    /* Navigation */
+    #header {
+        background: white;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 300;
+        color: #2c5530;
+        margin: 0;
+        padding: 15px 0;
+        letter-spacing: 1px;
+    }
+
+    #navbar {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 35px;
+        flex-wrap: wrap;
+    }
+
+    #navbar a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 400;
+        transition: color 0.3s ease;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+
+    #navbar a:hover {
+        color: #2c5530;
+    }
+
+#header ul li a { text-decoration: none; color: #333;font-weight: 500; transition: 0.3s;}
+.produit-container { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; padding:20px; }
+.produit { border:1px solid #ccc; border-radius:20px; padding:30px; width:210px; text-align:center; background:white; }
+.produit img { max-width:100%; height:auto; border-radius:8px; }
+button { cursor:pointer; background:#086f1496; color:white; border:none; border-radius:5px; padding:8px 12px; font-weight:bold; margin-top:5px; }
+button:hover { background:#0c3565; }
+footer { text-align:center; padding:10px; background:#086f141a; color:white; margin-top:20px; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<section id="header">
+ <h1 class="logo">SmartZone</h1>
+  <ul id="navbar">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="boutique.html">Boutique</a></li>
+    <li><a href="panier.html">Panier</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li id="loginLink"><a href="connexion.html">Connexion</a></li>
+    <li id="adminLink" style="display:none;"><a href="ajouter-produit.html">Ajouter Produit</a></li>
+    <li id="logoutLink" style="display:none;"><a href="#" onclick="logout()">Déconnexion</a></li>
+  </ul>
+</section>
+
+
+    <!-- ===== Script pour gérer affichage navbar ===== -->
+    <script>
+        const loginLink = document.getElementById('loginLink');
+        const adminLink = document.getElementById('adminLink');
+        const logoutLink = document.getElementById('logoutLink');
+
+        const adminConnecte = localStorage.getItem('adminConnecte') === 'true';
+        const utilisateurConnecte = localStorage.getItem('loggedUser');
+
+        if(adminConnecte){
+            adminLink.style.display = 'block';
+            logoutLink.style.display = 'block';
+            loginLink.style.display = 'none';
+        } else if(utilisateurConnecte){
+            loginLink.style.display = 'none';
+            logoutLink.style.display = 'block';
+        }
+
+        function logout(){
+            localStorage.removeItem('adminConnecte');
+            localStorage.removeItem('loggedUser');
+            window.location.reload();
+        }
+    </script>
+
+<script>
+    // Vérifier si admin est connecté
+    if(localStorage.getItem('adminConnecte') === 'true'){
+        document.getElementById('adminLink').style.display = 'block';
+        document.getElementById('logoutLink').style.display = 'block';
+    }
+
+    function logout() {
+        localStorage.removeItem('adminConnecte');
+        // Actualiser la page pour cacher les liens admin
+        window.location.reload();
+    }
+</script>
+
+    <!-- Contenu spécifique de la page -->
+    <section>
+       
+        
+    </section>
+
+    <section id="blog">
+        <h2 style="color: darkseagreen;">Derniers Articles</h2><br>
+
+        <article>
+            <h3>Comment choisir son ordinateur ?</h3>
+            <p> Bureautique / navigation web: un modèle basique suffit.<br>
+  - Création graphique / montage vidéo: privilégie un bon processeur (Intel i7/AMD Ryzen 7)
+  - une carte graphique dédiée<br>
+  - beaucoup de RAM.<br>
+   
+</p>
+        </article><br>
+
+        <article>
+            <h3>Nos nouvelles collections portables 2025</h3>
+            <p>Design et ergonomie:<br>
+ - Plus fins et plus légers: les constructeurs misent sur la portabilité sans sacrifier la performance.<br>
+ -  Matériaux durables: comme le plastique recyclé ou l’aluminium éco-responsable.<br>
+ Écrans:<br>
+- OLED devient presque un standard: couleurs plus vives, contrastes profonds.<br>
+- Écrans enroulables: Lenovo a présenté un modèle révolutionnaire⁽¹⁾.<br>
+
+.</p>
+        </article><br>
+
+        <article>
+            <h3>Guide d’entretien de vos produits</h3>
+            <p>Apprenez à prolonger la durée de vie de vos appareils avec nos astuces simples et efficaces.<br>
+            Entretien de la batterie:<br>
+            - Ne laissez pas l’appareil branché en permanence.<br>
+- Évitez les températures extrêmes (chaud ou froid).<br>
+- Faites une charge complète une fois par mois pour recalibrer la batterie.<br>
+</p>
+        </article><br>
+    </section>
+    <script>
+// Vérifie si un admin ou un utilisateur est connecté
+const isAdmin = localStorage.getItem('adminConnecte') === 'true';
+const loggedUser = localStorage.getItem('loggedUser');
+
+// Sélectionne les éléments du menu
+const loginLink = document.getElementById('loginLink');
+const logoutLink = document.getElementById('logoutLink');
+
+// Si quelqu’un est connecté → cacher "Connexion" et montrer "Déconnexion"
+if (isAdmin || loggedUser) {
+    if (loginLink) loginLink.style.display = 'none';
+    if (logoutLink) logoutLink.style.display = 'block';
+}
+
+// Fonction de déconnexion
+function logout() {
+    localStorage.removeItem('adminConnecte');
+    localStorage.removeItem('loggedUser');
+    window.location.href = 'index.html'; // redirige vers accueil
+}
+</script>
+
+
+</body>
+</html>

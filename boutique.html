@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boutique - SmartZone</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    /* Styles généraux */
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        background: #f8f9fa;
+        color: #333;
+    }
+
+    /* Navigation */
+    #header {
+        background: white;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 300;
+        color: #2c5530;
+        margin: 0;
+        padding: 15px 0;
+        letter-spacing: 1px;
+    }
+
+    #navbar {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 35px;
+        flex-wrap: wrap;
+    }
+
+    #navbar a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 400;
+        transition: color 0.3s ease;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+
+    #navbar a:hover {
+        color: #2c5530;
+    }
+
+    /* Section Hero */
+    .hero-section {
+        background: linear-gradient(135deg, #f8f6f2 0%, #e8e4dc 100%);
+        padding: 80px 20px;
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 300;
+        margin-bottom: 20px;
+        color: #2c2c2c;
+        letter-spacing: 2px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        font-weight: 300;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* Conteneur produits */
+    .produit {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 50px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  position: relative;
+  border: 1px solid #f0f0f0;
+  width: 250px; /* taille fixe pour chaque produit */
+  margin: 10px 0; /* espace vertical entre les lignes */
+}
+
+.produit:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.produit img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+.produit:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.produit img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+    /*.produit-content {*/
+        padding: 25px;
+    }
+
+    .produit h3 {
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin: 0 0 12px 0;
+        color: #2c2c2c;
+        line-height: 1.4;
+        min-height: 60px;
+    }
+
+    .produit .prix {
+        font-size: 1.6rem;
+        font-weight: 400;
+        color: #2c5530;
+        margin: 15px 0;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .produit .description {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        font-weight: 300;
+        min-height: 70px;
+    }
+
+    .produit .quantite {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    /* Badges */
+    .badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        color: white;
+        border-radius: 20px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        z-index: 2;
+    }
+
+    .badge.promo {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    }
+
+    .badge.nouveau {
+        background: linear-gradient(135deg, #2c5530, #4a8c5a);
+    }
+
+    .badge.meilleur {
+        background: linear-gradient(135deg, #ffa726, #f57c00);
+    }
+
+    /* Boutons */
+    .ajouter-panier {
+        width: 100%;
+        background: #2c5530;
+        color: white;
+        border: none;
+        padding: 14px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+    }
+
+    .ajouter-panier:hover {
+        background: #0c5b1abc;
+        transform: translateY(-2px);
+    }
+
+    /* Barre de recherche */
+    .search-container {
+        text-align: center;
+        margin: 30px 0;
+        padding: 0 20px;
+    }
+
+    #recherche {
+        width: 100%;
+        max-width: 400px;
+        padding: 14px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 25px;
+        font-size: 1rem;
+        background: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+
+    #recherche:focus {
+        outline: none;
+        border-color: #2c5530;
+        box-shadow: 0 4px 20px rgba(44, 85, 48, 0.15);
+    }
+
+    /* Titres */
+    h4 {
+        text-align: center;
+        margin: 40px 0 20px 0;
+        font-weight: 300;
+        font-size: 1.8rem;
+        color: #2c2c2c;
+        letter-spacing: 1px;
+    }
+
+    /* Pied de page */
+    footer {
+        background: #2c2c2c;
+        color: white;
+        text-align: center;
+        padding: 40px 20px;
+        margin-top: 80px;
+    }
+
+    /* Message aucun produit */
+    .no-products {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+        font-size: 1.1rem;
+        grid-column: 1 / -1;
+    }
+
+    /* Filtres */
+    .filtres {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 30px 0;
+        flex-wrap: wrap;
+    }
+
+    .filtre-btn {
+        background: white;
+        border: 1px solid #e0e0e0;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .filtre-btn.active,
+    .filtre-btn:hover {
+        background: #2c5530;
+        color: white;
+        border-color: #2c5530;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .produit-container {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 15px;
+        }
+
+        #navbar {
+            gap: 20px;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .produit h3 {
+            font-size: 1.2rem;
+            min-height: auto;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .produit-container {
+            grid-template-columns: 1fr;
+        }
+
+        #navbar {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .hero-section {
+            padding: 60px 20px;
+        }
+
+        .hero-title {
+            font-size: 1.8rem;
+        }
+    }
+
+    /* Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .produit {
+        animation: fadeInUp 0.6s ease;
+    }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<section id="header">
+  <h1 class="logo">SmartZone</h1>
+  <ul id="navbar">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="boutique.html">Boutique</a></li>
+    <li><a href="panier.html">Panier</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li id="loginLink"><a href="connexion.html">Connexion</a></li>
+    <li id="adminLink" style="display:none;"><a href="ajouter-produit.html">Ajouter Produit</a></li>
+    <li id="logoutLink" style="display:none;"><a href="#" onclick="logout()">Déconnexion</a></li>
+  </ul>
+</section>
+
+<!-- Section Hero -->
+<section class="hero-section">
+    <h1 class="hero-title">Collection SmartZone</h1>
+    <p class="hero-subtitle">Découvrez notre sélection exclusive de produits high-tech, alliant innovation et design élégant pour votre quotidien connecté</p>
+</section>
+
+
+
+<!-- Barre de recherche -->
+<div class="search-container">
+    <input type="text" id="recherche" placeholder="Rechercher un produit...">
+</div>
+
+<!-- Filtres -->
+<div class="filtres">
+    <button class="filtre-btn active" data-filtre="tous">Tous les produits</button>
+    <button class="filtre-btn" data-filtre="nouveau">Nouveautés</button>
+    <button class="filtre-btn" data-filtre="promo">Promotions</button>
+    <button class="filtre-btn" data-filtre="meilleur">Meilleures ventes</button>
+</div>
+
+
+<!-- Conteneur produits -->
+<div class="produit-container" id="produit-container"></div>
+
+<footer>
+  <p>&copy; 2025 SmartZone - Tous droits réservés.</p>
+</footer>
+
+<script>
+const produitContainer = document.getElementById('produit-container');
+const inputRecherche = document.getElementById('recherche');
+let produits = JSON.parse(localStorage.getItem('produits')) || [];
+let panier = JSON.parse(localStorage.getItem('panier')) || [];
+
+function afficherListe(liste){
+    produitContainer.innerHTML = '';
+    if(liste.length === 0){
+        produitContainer.innerHTML="<p style='text-align:center;'>Aucun produit trouvé.</p>";
+        return;
+}
+    liste.forEach(p=>{
+        const div = document.createElement('div');
+        div.className = 'produit';
+        div.innerHTML = `
+            ${p.badge? `<div class="badge ${p.badge}">${
+                p.badge==='promo'?'En promo':
+                p.badge==='nouveau'?'Nouveau':'Meilleur vendeur'
+}</div>`: ''}
+            <img src="${p.image}" alt="${p.nom}">
+            <h3>${p.nom}</h3>
+            <p style="color:chocolate;">Prix: ${p.prix} DH</p>
+            <p>Quantité: ${p.quantite}</p>
+            <p>${p.description}</p>
+            <button class="ajouter-panier" data-nom="${p.nom}" data-prix="${p.prix}">Ajouter au panier</button>
+        `;
+        produitContainer.appendChild(div);
+
+        const btn = div.querySelector('.ajouter-panier');
+        btn.addEventListener('click', ()=>{
+            const nom = btn.getAttribute('data-nom');
+            const prix = parseInt(btn.getAttribute('data-prix'));
+            const pExist = panier.find(prod => prod.nom === nom);
+            if(pExist){ pExist.quantite += 1;}
+            else { panier.push({nom, prix, quantite:1});}
+            localStorage.setItem('panier', JSON.stringify(panier));
+            alert(`${nom} ajouté au panier!`);
+             btn.textContent = '✓ Ajouté !';
+});
+});
+}
+
+afficherListe(produits);
+
+inputRecherche.addEventListener('input', () => {
+    const texte = inputRecherche.value.toLowerCase();
+    const produitsFiltres = produits.filter(p =>
+        p.nom.toLowerCase().includes(texte) ||
+        p.description.toLowerCase().includes(texte)
+);
+    afficherListe(produitsFiltres);
+});
+// --- Gestion des filtres ---
+const boutonsFiltre = document.querySelectorAll('.filtre-btn');
+
+boutonsFiltre.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // retirer la classe active de tous
+    boutonsFiltre.forEach(b => b.classList.remove('active'));
+    // activer le bouton cliqué
+    btn.classList.add('active');
+
+    const filtre = btn.getAttribute('data-filtre');
+
+    if (filtre === 'tous') {
+      afficherListe(produits);
+    } else {
+      const produitsFiltres = produits.filter(p => p.badge === filtre);
+      afficherListe(produitsFiltres);
+    }
+  });
+});
+
+</script>
+<script>
+// Vérifie si un admin ou un utilisateur est connecté
+const isAdmin = localStorage.getItem('adminConnecte') === 'true';
+const loggedUser = localStorage.getItem('loggedUser');
+
+// Sélectionne les éléments du menu
+const loginLink = document.getElementById('loginLink');
+const logoutLink = document.getElementById('logoutLink');
+
+// Si quelqu’un est connecté → cacher "Connexion" et montrer "Déconnexion"
+if (isAdmin || loggedUser) {
+    if (loginLink) loginLink.style.display = 'none';
+    if (logoutLink) logoutLink.style.display = 'block';
+}
+
+// Fonction de déconnexion
+function logout() {
+    localStorage.removeItem('adminConnecte');
+    localStorage.removeItem('loggedUser');
+    window.location.href = 'index.html'; // redirige vers accueil
+}
+</script>
+
+
+
+</body>
+</html>

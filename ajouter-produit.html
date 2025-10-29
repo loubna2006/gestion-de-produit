@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ajouter Produit - Loubna Boutique</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body { font-family: Arial, sans-serif; background-color: #f9f5fa; margin:0; }
+#header { color:white; padding:15px; text-align:center; background:#086f1418; }
+form, .liste-produits { background:white; max-width:600px; margin:40px auto; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+h3 { text-align:center; color:#11468a; margin-bottom:20px; }
+label { display:block; margin:10px 0 5px; font-weight:bold; }
+input, textarea, select { width:100%; padding:8px; border-radius:5px; border:1px solid #ccc; }
+button { margin-top:15px; padding:10px; background-color:#086f1496; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold; }
+button:hover { background-color:#029c5c; }
+.produit { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #ddd; padding:10px; }
+.produit img { width:60px; height:60px; border-radius:8px; object-fit:cover; }
+.actions button { margin-left:5px; background-color:#086f1496; }
+.actions button:hover { background-color:#c30e0e; }
+</style>
+</head>
+<body>
+
+<section id="header">
+<h1 class="logo">SmartZone</h1>
+<ul id="navbar">
+  <li><a href="index.html">Accueil</a></li>
+  <li><a href="boutique.html">Boutique</a></li>
+  <li><a href="panier.html">Panier</a></li>
+  <li id="adminLink" style="display:none;"><a href="ajout_produit.html">Ajouter Produit</a></li>
+  <li id="loginLink"><a href="connexion.html">Connexion</a></li>
+  <li id="logoutLink" style="display:none;"><a href="#" onclick="logout()">Déconnexion</a></li>
+</ul>
+</section>
+
+<form id="ajouter-produit-form">
+<h3>Ajouter un Produit</h3>
+<table style="width:100%; border-collapse: collapse;">
+<tr>
+  <td style="padding:8px; font-weight:bold;">Nom du produit :</td>
+  <td><input type="text" id="nom" required></td>
+</tr>
+<tr>
+  <td style="padding:8px; font-weight:bold;">Prix (DH) :</td>
+  <td><input type="number" id="prix" required></td>
+</tr>
+<tr>
+  <td style="padding:8px; font-weight:bold;">Quantité :</td>
+  <td><input type="number" id="quantite" required></td>
+</tr>
+<tr>
+  <td style="padding:8px; font-weight:bold;">Image :</td>
+  <td><input type="file" id="image" accept="image/*"></td>
+</tr>
+<tr>
+  <td style="padding:8px; font-weight:bold;">Description :</td>
+  <td><textarea id="description" rows="3"></textarea></td>
+</tr>
+<tr>
+  <td style="padding:8px; font-weight:bold;">Badge :</td>
+  <td>
+    <select id="badge">
+      <option value="">Aucun</option>
+      <option value="promo">En promo</option>
+      <option value="nouveau">Nouveau</option>
+      <option value="meilleur">Meilleur vendeur</option>
+    </select>
+  </td>
+</tr>
+<tr>
+  <td colspan="2" style="text-align:center; padding-top:15px;">
+    <button type="submit">Ajouter le produit</button>
+  </td>
+</tr>
+</table>
+</form>
+
+<div class="liste-produits">
+<h3>Produits existants</h3>
+<div id="liste"></div>
+</div>
+
+<script>
+if(localStorage.getItem('adminConnecte')!=='true'){
+    alert("Accès refusé! Vous devez vous connecter.");
+    window.location.href="connexion.html";
+}
+
+const form = document.getElementById('ajouter-produit-form');
+const listeDiv = document.getElementById('liste');
+let produits = JSON.parse(localStorage.getItem('produits')) || [];
+
+function afficherProduits(){
+    listeDiv.innerHTML='';
+    produits.forEach((p,index)=>{
+        const div = document.createElement('div');
+        div.className='produit';
+        div.innerHTML=`
+            <div>
+                <img src="${p.image}" alt="${p.nom}">
+                <strong>${p.nom}</strong> - ${p.prix} DH<br>
+                <small>Qté: ${p.quantite}</small><br>
+                <small>Badge: ${p.badge || 'Aucun'}</small>
+            </div>
+            <div class="actions">
+                <button onclick="modifierProduit(${index})">Modifier</button>
+                <button onclick="supprimerProduit(${index})">Supprimer</button>
+            </div>
+        `;
+        listeDiv.appendChild(div);
+});
+}
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const file = document.getElementById('image').files[0];
+    if (!file) return alert("Veuillez choisir une image!");
+    const reader = new FileReader();
+    reader.onload = function () {
+        const produit = {
+            nom: document.getElementById('nom').value,
+            prix: parseFloat(document.getElementById('prix').value),
+            quantite: parseInt(document.getElementById('quantite').value),
+            image: reader.result,
+            description: document.getElementById('description').value,
+            badge: document.getElementById('badge').value
+};
+        produits.push(produit);
+        localStorage.setItem('produits', JSON.stringify(produits));
+        form.reset();
+        afficherProduits();
+};
+    reader.readAsDataURL(file);
+});
+
+function supprimerProduit(index){
+    if(confirm("Supprimer ce produit?")){
+        produits.splice(index,1);
+        localStorage.setItem('produits', JSON.stringify(produits));
+        afficherProduits();
+}
+}
+
+function modifierProduit(index){
+    const p=produits[index];
+    document.getElementById('nom').value=p.nom;
+    document.getElementById('prix').value=p.prix;
+    document.getElementById('quantite').value=p.quantite;
+    document.getElementById('description').value=p.description;
+    document.getElementById('badge').value=p.badge;
+
+    form.onsubmit=(e)=>{
+        e.preventDefault();
+        p.nom=document.getElementById('nom').value;
+        p.prix=parseFloat(document.getElementById('prix').value);
+        p.quantite=parseInt(document.getElementById('quantite').value);
+        p.description=document.getElementById('description').value;
+        p.badge=document.getElementById('badge').value;
+
+        const file=document.getElementById('image').files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload=function(){
+                p.image=reader.result;
+                localStorage.setItem('produits',JSON.stringify(produits));
+                afficherProduits();
+                form.reset();
+                form.onsubmit=addHandler;
+};
+            reader.readAsDataURL(file);
+} else {
+            localStorage.setItem('produits',JSON.stringify(produits));
+            afficherProduits();
+            form.reset();
+            form.onsubmit=addHandler;
+}
+};
+}
+
+const addHandler=form.onsubmit;
+afficherProduits();
+
+function logout(){
+    localStorage.removeItem('adminConnecte');
+    window.location.href="connexion.html";
+}
+</script>
+<script>
+// Vérifie si un admin ou un utilisateur est connecté
+const isAdmin = localStorage.getItem('adminConnecte') === 'true';
+const loggedUser = localStorage.getItem('loggedUser');
+
+// Sélectionne les éléments du menu
+const loginLink = document.getElementById('loginLink');
+const logoutLink = document.getElementById('logoutLink');
+
+// Si quelqu’un est connecté → cacher "Connexion" et montrer "Déconnexion"
+if (isAdmin || loggedUser) {
+    if (loginLink) loginLink.style.display = 'none';
+    if (logoutLink) logoutLink.style.display = 'block';
+}
+
+// Fonction de déconnexion
+function logout() {
+    localStorage.removeItem('adminConnecte');
+    localStorage.removeItem('loggedUser');
+    window.location.href = 'index.html'; // redirige vers accueil
+}
+</script>
+
+
+</body>
+</html>

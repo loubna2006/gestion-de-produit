@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Commandes - Loubna</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+
+        table {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .commande {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin: 15px auto;
+            padding: 15px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-supprimer {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-supprimer:hover {
+            background-color: #c0392b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #2d3436;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête -->
+    <section id="header">
+        <h1 class="logo">SmartZone</h1>
+        <ul id="navbar">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="boutique.html">Boutique</a></li>
+            <li><a href="panier.html">Panier</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </section>
+
+    <!-- Section Commandes -->
+    <section id="commandes">
+        <h2>Mes Commandes</h2>
+        <div id="liste-commandes"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Loubna Boutique - Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        const listeCommandes = document.getElementById('liste-commandes');
+        let commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+
+        function afficherCommandes() {
+            listeCommandes.innerHTML = ""; // vider l'affichage avant de le recréer
+
+            if (commandes.length === 0) {
+                listeCommandes.innerHTML = "<p style='text-align:center;'>Aucune commande passée pour le moment.</p>";
+                return;
+            }
+
+            commandes.forEach((commande, index) => {
+                const div = document.createElement('div');
+                div.className = "commande";
+
+                let html = `<h3>Commande #${index + 1} - ${commande.date}</h3>`;
+                html += `<table>
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
+                            <th>Sous-total</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+                commande.produits.forEach(p => {
+                    html += `<tr>
+                        <td>${p.nom}</td>
+                        <td>${p.prix} DH</td>
+                        <td>${p.quantite}</td>
+                        <td>${p.prix * p.quantite} DH</td>
+                    </tr>`;
+                });
+
+                html += `</tbody></table>`;
+                html += `<p style="text-align:right;font-weight:bold;">Total: ${commande.total} DH</p>`;
+                html += `<button class="btn-supprimer" onclick="supprimerCommande(${index})">🗑 Supprimer cette commande</button>`;
+
+                div.innerHTML = html;
+                listeCommandes.appendChild(div);
+            });
+        }
+
+        function supprimerCommande(index) {
+            if (confirm("Voulez-vous vraiment supprimer cette commande ?")) {
+                commandes.splice(index, 1); // supprimer du tableau
+                localStorage.setItem('commandes', JSON.stringify(commandes)); // mettre à jour le stockage
+                afficherCommandes(); // réafficher la liste
+            }
+        }
+
+        // Affichage initial
+        afficherCommandes();
+    </script>
+
+</body>
+</html>

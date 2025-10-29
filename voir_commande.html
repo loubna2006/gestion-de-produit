@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Commandes - SmartZone</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f6fa;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        #header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 300;
+            color: #2c5530;
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        #navbar {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 30px;
+        }
+
+        #navbar a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        #navbar a:hover {
+            color: #2c5530;
+        }
+
+        #liste-commandes {
+            padding: 40px 20px;
+            min-height: 70vh;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        #liste-commandes > h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c5530;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+
+        .commande {
+            border: 1px solid #ddd;
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .commande h4 {
+            color: #2c5530;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .commande > p {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .commande > p strong {
+            color: #2c5530;
+            font-weight: 600;
+        }
+
+        .commande table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .commande th, .commande td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .commande th {
+            background: #2c5530;
+            color: white;
+            font-weight: 400;
+            font-size: 0.85rem;
+        }
+
+        .commande > p:last-of-type {
+            text-align: right;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2c5530;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .supprimer-commande {
+            background: #dc3545;
+            color: white;
+        }
+
+        .supprimer-commande:hover { background: #c82333; }
+
+        .valider-commande {
+            background: #086f1496;
+            color: white;
+        }
+
+        .valider-commande:hover { background: #0c3565; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #086f141a;
+            color: #333;
+            margin-top: 50px;
+        }
+
+        footer p { margin: 0; }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 15px 0;
+            color: #2c5530;
+        }
+
+        .btn-primary {
+            background: #086f1496;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover { background: #0c3565; }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 1.8rem; }
+            #navbar { gap: 15px; flex-wrap: wrap; }
+            #navbar a { font-size: 0.9rem; }
+            .commande { padding: 20px; }
+            .commande th, .commande td { padding: 8px 6px; font-size: 0.85rem; }
+            button {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+                display: block;
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <section id="header">
+        <h1 class="logo">SmartZone</h1>
+        <ul id="navbar">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="boutique.html">Boutique</a></li>
+            <li><a href="panier.html">Panier</a></li>
+            <li id="loginLink"><a href="connexion.html">Connexion</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li id="logoutLink" style="display:none;"><a href="#" onclick="logout()">Déconnexion</a></li>
+        </ul>
+    </section>
+
+    <section id="liste-commandes"></section>
+
+    <footer>
+        <p>&copy; 2025 SmartZone - Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Vérifier si admin ou utilisateur connecté
+        const isAdmin = localStorage.getItem('adminConnecte') === 'true';
+        const loggedUser = localStorage.getItem('loggedUser');
+
+        const loginLink = document.getElementById('loginLink');
+        const logoutLink = document.getElementById('logoutLink');
+
+        if (isAdmin || loggedUser) {
+            loginLink.style.display = 'none';
+            logoutLink.style.display = 'block';
+        }
+
+        function logout() {
+            localStorage.removeItem('adminConnecte');
+            localStorage.removeItem('loggedUser');
+            window.location.href = 'index.html';
+        }
+
+        function afficherCommandes() {
+            const commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+            const container = document.getElementById('liste-commandes');
+            container.innerHTML = '';
+
+            if (commandes.length === 0) {
+                container.innerHTML = `
+                    <h2>Mes commandes</h2>
+                    <div class="empty-state">
+                        <h3>Aucune commande pour le moment</h3>
+                        <p>Vous n'avez pas encore passé de commande.</p>
+                        <a href="boutique.html" class="btn-primary">Découvrir la boutique</a>
+                    </div>`;
+                return;
+            }
+
+            const titre = document.createElement('h2');
+            titre.textContent = isAdmin ? 'Toutes les commandes' : 'Mes commandes';
+            container.appendChild(titre);
+
+            commandes.reverse().forEach(c => {
+                if (!isAdmin && c.utilisateur !== loggedUser) return;
+
+                const div = document.createElement('div');
+                div.className = 'commande';
+
+                let html = `
+                    <h4>Commande #${c.id} - ${c.date}</h4>
+                    <p>Statut: <strong>${c.statut}</strong></p>
+                    <table>
+                        <thead>
+                            <tr><th>Produit</th><th>Prix</th><th>Quantité</th><th>Total</th></tr>
+                        </thead>
+                        <tbody>`;
+
+                c.produits.forEach(p => {
+                    html += `<tr><td>${p.nom}</td><td>${p.prix} DH</td><td>${p.quantite}</td><td>${p.prix * p.quantite} DH</td></tr>`;
+                });
+
+                html += `</tbody></table>
+                         <p>Total: ${c.total} DH</p>
+                         <button class="supprimer-commande" data-id="${c.id}">Supprimer la commande</button>`;
+
+                if (isAdmin && c.statut !== 'Passé') {
+                    html += `<button class="valider-commande" data-id="${c.id}">Valider la commande</button>`;
+                }
+
+                div.innerHTML = html;
+                container.appendChild(div);
+            });
+        }
+
+        document.addEventListener('click', e => {
+            if (e.target.classList.contains('supprimer-commande')) {
+                const id = e.target.dataset.id;
+                if (confirm("Voulez-vous vraiment supprimer cette commande ?")) {
+                    let commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+                    commandes = commandes.filter(c => c.id != id);
+                    localStorage.setItem('commandes', JSON.stringify(commandes));
+                    afficherCommandes();
+                }
+            }
+
+            if (e.target.classList.contains('valider-commande') && isAdmin) {
+                const id = e.target.dataset.id;
+                let commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+                commandes = commandes.map(c => {
+                    if (c.id == id) c.statut = 'Passé';
+                    return c;
+                });
+                localStorage.setItem('commandes', JSON.stringify(commandes));
+                afficherCommandes();
+            }
+        });
+
+        afficherCommandes();
+    </script>
+</body>
+</html>

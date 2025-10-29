@@ -1,0 +1,170 @@
+/* Style général */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Header */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color: #086f1418;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #086f1496;
+    font-family: 'Helvetica', serif;
+    font-style:italic;
+}
+
+/* Menu */
+#navbar {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+#navbar li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+
+#navbar li a.active,
+#navbar li a:hover {
+    color: #009688;
+    border-bottom: 2px solid #009688;
+}
+
+/* Section principale */
+#hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 100px;
+    background-color: #eef4f7;
+}
+
+.texte-hero {
+    max-width: 50%;
+}
+
+.texte-hero p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.texte-hero h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: #222;
+    line-height: 1.2;
+}
+
+.texte-hero h1 span {
+    color: #009688;
+}
+
+button {
+    background-color: #009688;
+    color: rgb(255, 255, 255);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+
+}
+
+  
+
+
+button:hover {
+    background-color: #00796b;
+}
+
+/* Image à droite */
+.image-hero img {
+    width: 350px;
+    border-radius: 10px;
+}
+/* Boutique */
+#boutique {
+    text-align: center;
+    padding: 60px 40px;
+    background-color: #f9f9f9;
+}
+
+#boutique h2 {
+    font-size: 32px;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+#boutique p {
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.produit-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.produit {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 220px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.produit:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+}
+
+.produit img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.produit h3 {
+    margin: 10px 0 5px;
+    color: #333;
+}
+
+.prix {
+    font-weight: bold;
+    color: #009688;
+    margin-bottom: 10px;
+}
+#passer-commande{
+background-color:  #086f1496;
+}
+#voir-commandes{
+    background-color: #086f1496;
+    
+}

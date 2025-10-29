@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription</title>
+<style>
+body { font-family: Arial; display:flex; justify-content:center; align-items:center; height:100vh; background:#f0f0f0;}
+form {background:#fff; padding:25px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); width:300px;}
+input, button {width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc;}
+button {background:#3498db; color:white; border:none; cursor:pointer;}
+button:hover {background:#2980b9;}
+</style>
+</head>
+<body>
+
+<div class="container">
+        <h2>Inscription</h2>
+        <form id="registerForm">
+            <label>Nom :</label>
+            <input type="text" id="nom" placeholder="Entrez votre nom" required />
+            <label>Email :</label>
+            <input type="email" id="email" placeholder="Entrez votre email" required />
+            <label>Mot de passe :</label>
+            <input type="password" id="password" placeholder="Mot de passe" required />
+            <button type="submit">S'inscrire</button>
+        </form>
+        <p>Déjà un compte ? <a href="index.html">Se connecter</a></p>
+    </div>
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const nom = document.getElementById("nom").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const userData = {
+                nom: nom,
+                email: email,
+                password: password
+            };
+
+            localStorage.setItem("userData", JSON.stringify(userData));
+            alert("✅ Compte créé avec succès !");
+            window.location.href = "index.html";
+        });
+        if (document.getElementById("loginForm")) {
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        if (userData && email === userData.email && password === userData.password) {
+            alert("✅ Connexion réussie !");
+            localStorage.setItem("loggedUser", userData.nom);
+            window.location.href = "boutique.html";
+        } else {
+            alert("Email ou mot de passe incorrect !");
+        }
+    });
+}
+    </script>
+</body>
+</html>

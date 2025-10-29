@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -127,3 +128,125 @@ function logout() {
 
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Loubna</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; padding:0; }
+        #header { background-color:#11458a00; color:white; padding:20px; }
+        #header .logo { font-size:2em; margin:0; }
+        #navbar { list-style:none; padding:0; margin:10px 0; }
+        #navbar li { display:inline; margin:0 15px; }
+        #navbar a { color:white; text-decoration:none; font-weight:bold; }
+        #navbar a.active { text-decoration:underline; }
+
+        section { padding:20px; max-width:800px; margin:auto; }
+        h2 { text-align:center; margin-bottom:20px; }
+
+        form { display:flex; flex-direction:column; gap:15px; }
+        label { font-weight:bold; }
+        input, textarea { padding:10px; font-size:1em; border-radius:5px; border:1px solid #ccc; }
+        button { padding:10px; font-size:1em; background-color:#11458a00; color:white; border:none; border-radius:5px; cursor:pointer; }
+        button:hover { background-color:#0d376f1e; }
+
+        #messages { margin-top:30px; }
+        #messages ul { list-style:none; padding:0; }
+        #messages li { background:#f2f2f2; padding:10px; margin-bottom:10px; border-radius:5px; }
+    </style>
+</head>
+<body>
+
+    <!-- Barre de navigation -->
+   <!-- Barre de navigation commune à toutes les pages -->
+    <section id="header">
+        <h1 class="logo">Loubna</h1>
+        <ul id="navbar">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="boutique.html">Boutique</a></li>
+            <li><a href="panier.html">Panier</a></li>
+             <li><a href="blog.html">blog</a></li>
+             <li><a href="contact.html">contact</a></li>
+            
+        </ul>
+    </section>
+    <!-- Formulaire de contact -->
+    <section id="contact">
+        <h2>Contactez-nous</h2>
+        <form id="contact-form">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" required>
+
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message :</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit">Envoyer</button>
+        </form>
+
+        <!-- Affichage des messages -->
+        <section id="messages">
+            <h3>Messages reçus :</h3>
+            <ul id="messages-list"></ul>
+        </section>
+    </section>
+
+    <!-- Pied de page -->
+    <footer>
+        <p style="text-align:center;">&copy; 2025 Loubna Boutique - Tous droits réservés.</p>
+    </footer>
+
+    <!-- Script pour gérer l'envoi et l'affichage des messages -->
+    <script>
+        const form = document.getElementById('contact-form');
+        const messagesList = document.getElementById('messages-list');
+
+        // Récupérer les messages existants depuis LocalStorage
+        let messages = JSON.parse(localStorage.getItem('messages')) || [];
+
+        // Fonction pour afficher les messages
+        function afficherMessages() {
+            messagesList.innerHTML = '';
+            messages.forEach(msg => {
+                const li = document.createElement('li');
+                li.textContent = `Nom: ${msg.nom}, Email: ${msg.email}, Message: ${msg.message}`;
+                messagesList.appendChild(li);
+            });
+        }
+
+        // Afficher les messages au chargement
+        afficherMessages();
+
+        // Gestion de l'envoi du formulaire
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Empêche le rechargement de la page
+
+            const nom = document.getElementById('nom').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            const nouveauMessage = { nom, email, message };
+            messages.push(nouveauMessage);
+
+            // Sauvegarder dans LocalStorage
+            localStorage.setItem('messages', JSON.stringify(messages));
+
+            // Réafficher les messages
+            afficherMessages();
+
+            // Réinitialiser le formulaire
+            form.reset();
+
+            alert('Votre message a été envoyé !');
+        });
+    </script>
+
+</body>
+</html>
+>>>>>>> a24af49e0011fe4d96556a542d8fe76dfed51451

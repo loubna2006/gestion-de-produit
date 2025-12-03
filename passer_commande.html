@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Passer une Commande</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 450px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background: #27ae60;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #2ecc71;
+        }
+
+        .success {
+            background: #2ecc71;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Passer une Commande</h2>
+
+    <div class="success" id="successMsg">Commande ajoutée avec succès ✔</div>
+
+    <h3>Informations Client</h3>
+    <input type="text" id="nom" placeholder="Nom complet" required>
+    <input type="text" id="telephone" placeholder="Téléphone" required>
+    <input type="text" id="adresse" placeholder="Adresse" required>
+    <input type="email" id="email" placeholder="Email (optionnel)">
+
+    <h3>Détails Commande</h3>
+    <input type="text" id="produit" placeholder="Produit" required>
+    <input type="number" id="quantite" placeholder="Quantité" required>
+    <input type="number" id="prix" placeholder="Prix (DH)" required>
+
+    <select id="paiement">
+        <option value="cash">Cash</option>
+        <option value="carte">Carte Bancaire</option>
+    </select>
+
+    <button onclick="ajouterCommande()">Enregistrer</button>
+</div>
+
+<script>
+    function ajouterCommande() {
+        // récupérer les valeurs
+        let commande = {
+            nom: document.getElementById("nom").value,
+            telephone: document.getElementById("telephone").value,
+            adresse: document.getElementById("adresse").value,
+            email: document.getElementById("email").value,
+            produit: document.getElementById("produit").value,
+            quantite: document.getElementById("quantite").value,
+            prix: document.getElementById("prix").value,
+            paiement: document.getElementById("paiement").value,
+            date: new Date().toLocaleString()
+        };
+
+        // lire commandes existantes
+        let commandes = JSON.parse(localStorage.getItem("commandes")) || [];
+
+        // ajouter nouvelle commande
+        commandes.push(commande);
+
+        // sauvegarder donnée
+        localStorage.setItem("commandes", JSON.stringify(commandes));
+
+        // message succès
+        document.getElementById("successMsg").style.display = "block";
+
+        // vider les inputs
+        document.querySelectorAll("input").forEach(i => i.value = "");
+    }
+</script>
+
+</body>
+</html>
